@@ -6,9 +6,9 @@ import (
 )
 
 type (
-	Fields  map[string]interface{}
-	FmtFunc func(err *Err) string
-	ErrType uint
+	ErrFields  map[string]interface{}
+	ErrFmtFunc func(err *Err) string
+	ErrType    uint
 )
 
 const (
@@ -28,20 +28,20 @@ const (
 type Err struct {
 	cause   error
 	message string
-	fields  Fields
+	fields  ErrFields
 	errType ErrType
 
 	line    int
 	file    string
-	fmtFunc FmtFunc
+	fmtFunc ErrFmtFunc
 }
 
-func NewErr(cause error, fields Fields, fmtFunc FmtFunc,
+func NewErr(cause error, fields ErrFields, fmtFunc ErrFmtFunc,
 	format string, args ...interface{}) *Err {
 	return newErr(cause, fields, defaultFmtFunc, format, args...)
 }
 
-func newErr(cause error, fields Fields, fmtFunc FmtFunc,
+func newErr(cause error, fields ErrFields, fmtFunc ErrFmtFunc,
 	format string, args ...interface{}) *Err {
 	if fmtFunc == nil {
 		fmtFunc = defaultFmtFunc
@@ -70,7 +70,7 @@ func (e *Err) Cause() error {
 	return e.cause
 }
 
-func (e *Err) Fields() Fields {
+func (e *Err) Fields() ErrFields {
 	return e.fields
 }
 
@@ -92,7 +92,7 @@ func (e *Err) WithCause(err error) *Err {
 	return e
 }
 
-func (e *Err) WithFields(fields Fields) *Err {
+func (e *Err) WithFields(fields ErrFields) *Err {
 	e.fields = fields
 	return e
 }
@@ -102,7 +102,7 @@ func (e *Err) WithType(errType ErrType) *Err {
 	return e
 }
 
-func (e *Err) WithFormat(fmtFunc FmtFunc) *Err {
+func (e *Err) WithFormat(fmtFunc ErrFmtFunc) *Err {
 	e.fmtFunc = fmtFunc
 	return e
 }

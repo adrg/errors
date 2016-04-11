@@ -31,3 +31,11 @@ func Type(err error) ErrType {
 
 	return Generic
 }
+
+func Fields(err error) ErrFields {
+	if e, ok := err.(*Err); ok {
+		return e.Fields()
+	}
+
+	return nil
+}
