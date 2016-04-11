@@ -15,18 +15,24 @@ func defaultFmtFunc(err *Err) string {
 	}
 
 	if message := err.Message(); message != "" {
-		errFmt += " %s"
+		errFmt += ` "%s"`
 		params = append(params, message)
 	}
 
 	if cause := err.Cause(); cause != nil {
-		errFmt += " %v"
+		errFmt += ` "%v"`
 		params = append(params, cause)
 	}
 
 	if fields := err.Fields(); fields != nil {
 		for key, value := range fields {
-			errFmt += " %s=%v"
+			switch value.(type) {
+			case string:
+				errFmt += ` %s="%s"`
+			default:
+				errFmt += " %s=%v"
+			}
+
 			params = append(params, key, value)
 		}
 	}
