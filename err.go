@@ -15,6 +15,7 @@ const (
 	Generic ErrType = iota
 	NotFound
 	Unauthorized
+	Forbidden
 	NotImplemented
 	AlreadyExists
 	NotSupported
