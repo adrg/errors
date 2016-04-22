@@ -8,6 +8,10 @@ func Wrap(err error) *Err {
 	return newErr(err, nil, defaultFmtFunc, "")
 }
 
+func Annotate(err error, format string, args ...interface{}) *Err {
+	return newErr(err, nil, defaultFmtFunc, format, args...)
+}
+
 func Cause(err error) error {
 	if e, ok := err.(*Err); ok {
 		return e.Cause()
