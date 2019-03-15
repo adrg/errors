@@ -12,11 +12,11 @@ type primitive struct {
 	frame   *frame
 }
 
-func newPrimitive(cause error, message string, skipFrames int) *primitive {
+func newPrimitive(cause error, message string) *primitive {
 	return &primitive{
 		cause:   cause,
 		message: message,
-		frame:   callerFrame(skipFrames),
+		frame:   callerFrame(2),
 	}
 }
 

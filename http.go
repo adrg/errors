@@ -13,14 +13,14 @@ func (h http) Code() int {
 
 func HTTP(cause error, code int, message string) error {
 	return &http{
-		primitive: newPrimitive(cause, message, 2),
+		primitive: newPrimitive(cause, message),
 		code:      code,
 	}
 }
 
 func HTTPf(cause error, code int, format string, args ...interface{}) error {
 	return &http{
-		primitive: newPrimitive(cause, fmt.Sprintf(format, args...), 2),
+		primitive: newPrimitive(cause, fmt.Sprintf(format, args...)),
 		code:      code,
 	}
 }

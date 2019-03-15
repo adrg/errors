@@ -14,11 +14,11 @@ type withCode interface {
 }
 
 func New(message string) error {
-	return newPrimitive(nil, message, 2)
+	return newPrimitive(nil, message)
 }
 
 func Newf(format string, args ...interface{}) error {
-	return newPrimitive(nil, fmt.Sprintf(format, args...), 2)
+	return newPrimitive(nil, fmt.Sprintf(format, args...))
 }
 
 func Wrap(err error, message string) error {
@@ -26,7 +26,7 @@ func Wrap(err error, message string) error {
 		return nil
 	}
 
-	return newPrimitive(err, message, 2)
+	return newPrimitive(err, message)
 }
 
 func Wrapf(err error, format string, args ...interface{}) error {
@@ -34,7 +34,7 @@ func Wrapf(err error, format string, args ...interface{}) error {
 		return nil
 	}
 
-	return newPrimitive(err, fmt.Sprintf(format, args...), 2)
+	return newPrimitive(err, fmt.Sprintf(format, args...))
 }
 
 func Unwrap(err error) error {
