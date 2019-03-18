@@ -2,24 +2,29 @@ package errors
 
 import "fmt"
 
-type HTTP struct {
+type HTTP interface {
+	error
+	Code() int
+}
+
+type http struct {
 	*primitive
 	code int
 }
 
-func (h HTTP) Code() int {
+func (h http) Code() int {
 	return h.code
 }
 
 func NewHTTP(cause error, code int, message string) error {
-	return &HTTP{
+	return &http{
 		primitive: newPrimitive(cause, message),
 		code:      code,
 	}
 }
 
 func HTTPf(cause error, code int, format string, args ...interface{}) error {
-	return &HTTP{
+	return &http{
 		primitive: newPrimitive(cause, fmt.Sprintf(format, args...)),
 		code:      code,
 	}
