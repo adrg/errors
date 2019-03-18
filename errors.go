@@ -17,7 +17,7 @@ func New(message string) error {
 	return newPrimitive(nil, message)
 }
 
-func Errof(format string, args ...interface{}) error {
+func Errorf(format string, args ...interface{}) error {
 	return newPrimitive(nil, fmt.Sprintf(format, args...))
 }
 
@@ -39,7 +39,7 @@ func Wrapf(err error, format string, args ...interface{}) error {
 
 func Unwrap(err error) error {
 	if err != nil {
-		if p, ok := err.(*primitive); ok {
+		if p, ok := err.(wrapper); ok {
 			return p.Unwrap()
 		}
 	}
