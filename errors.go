@@ -17,7 +17,7 @@ func New(message string) error {
 	return newPrimitive(nil, message)
 }
 
-func Newf(format string, args ...interface{}) error {
+func Errof(format string, args ...interface{}) error {
 	return newPrimitive(nil, fmt.Sprintf(format, args...))
 }
 
