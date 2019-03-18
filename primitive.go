@@ -69,10 +69,11 @@ func (p *primitive) format(detailed bool) string {
 			if w, ok := cause.(wrapper); ok {
 				if cause = w.Unwrap(); cause != nil {
 					b.WriteString(":")
+					continue
 				}
-			} else {
-				cause = nil
 			}
+
+			break
 		}
 	}
 
