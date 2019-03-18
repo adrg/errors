@@ -13,14 +13,18 @@ type withCode interface {
 	Code() int
 }
 
+// New returns a new error with the specified message.
 func New(message string) error {
 	return newPrimitive(nil, message)
 }
 
+// Errorf returns a new error formatted according to the format specifier.
 func Errorf(format string, args ...interface{}) error {
 	return newPrimitive(nil, fmt.Sprintf(format, args...))
 }
 
+// Wrap annotates the provided error with the specified message.
+// Returns nil if the err parameter is nil.
 func Wrap(err error, message string) error {
 	if err == nil {
 		return nil
@@ -29,6 +33,8 @@ func Wrap(err error, message string) error {
 	return newPrimitive(err, message)
 }
 
+// Wrapf annotates the provided error according to the format specifier.
+// Returns nil if the err parameter is nil.
 func Wrapf(err error, format string, args ...interface{}) error {
 	if err == nil {
 		return nil
@@ -37,6 +43,8 @@ func Wrapf(err error, format string, args ...interface{}) error {
 	return newPrimitive(err, fmt.Sprintf(format, args...))
 }
 
+// Unwrap returns the next error in the error chain.
+// If there is no next error, Unwrap returns nil.
 func Unwrap(err error) error {
 	if err != nil {
 		if p, ok := err.(wrapper); ok {
@@ -47,6 +55,7 @@ func Unwrap(err error) error {
 	return nil
 }
 
+// Is reports whether err or any of the errors in its chain is equal to target.
 func Is(err, target error) bool {
 	if target == nil {
 		return err == target
@@ -62,6 +71,9 @@ func Is(err, target error) bool {
 	}
 }
 
+// As checks whether err or any of the errors in its chain is a value of the
+// same type as target. If so, it sets target with the found value and returns
+// true. Otherwise, target is left unchanged and false is returned.
 func As(err error, target interface{}) bool {
 	if err == nil || target == nil {
 		return false
@@ -84,6 +96,8 @@ func As(err error, target interface{}) bool {
 	}
 }
 
+// Code returns the code of the provided error.
+// Returns 0 if the error has no error code.
 func Code(err error) int {
 	if err != nil {
 		if h, ok := err.(withCode); ok {
