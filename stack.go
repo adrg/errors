@@ -3,6 +3,7 @@ package errors
 import (
 	"runtime"
 	"strconv"
+	"strings"
 )
 
 type frame struct {
@@ -17,19 +18,19 @@ func callerFrame(skip int) *frame {
 		return nil
 	}
 
-	callerFrames := runtime.CallersFrames(pcs[:])
-	if _, ok := callerFrames.Next(); !ok {
+	cfs := runtime.CallersFrames(pcs[:])
+	if _, ok := cfs.Next(); !ok {
 		return nil
 	}
-	callerFrame, ok := callerFrames.Next()
+	cf, ok := cfs.Next()
 	if !ok {
 		return nil
 	}
 
 	return &frame{
-		Function: callerFrame.Function,
-		File:     callerFrame.File,
-		Line:     callerFrame.Line,
+		Function: cf.Function[strings.LastIndex(cf.Function, "/")+1:],
+		File:     cf.File,
+		Line:     cf.Line,
 	}
 }
 
