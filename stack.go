@@ -35,5 +35,13 @@ func callerFrame(skip int) *frame {
 }
 
 func (f *frame) String() string {
-	return f.File + ":" + strconv.Itoa(f.Line) + " " + f.Function
+	var b strings.Builder
+
+	b.WriteString(f.File)
+	b.WriteString(":")
+	b.WriteString(strconv.Itoa(f.Line))
+	b.WriteString(" ")
+	b.WriteString(f.Function)
+
+	return b.String()
 }
