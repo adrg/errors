@@ -23,9 +23,9 @@ func Errorf(format string, args ...interface{}) error {
 	return newPrimitive(nil, fmt.Sprintf(format, args...))
 }
 
-// Wrap annotates the provided error with the specified message.
-// Returns nil if the err parameter is nil.
-func Wrap(err error, message string) error {
+// Annotate annotates the provided error with the specified message.
+// Returns nil if the err argument is nil.
+func Annotate(err error, message string) error {
 	if err == nil {
 		return nil
 	}
@@ -33,9 +33,9 @@ func Wrap(err error, message string) error {
 	return newPrimitive(err, message)
 }
 
-// Wrapf annotates the provided error according to the format specifier.
-// Returns nil if the err parameter is nil.
-func Wrapf(err error, format string, args ...interface{}) error {
+// Annotatef annotates the provided error according to the format specifier.
+// Returns nil if the err argument is nil.
+func Annotatef(err error, format string, args ...interface{}) error {
 	if err == nil {
 		return nil
 	}
