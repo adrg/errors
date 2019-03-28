@@ -43,6 +43,26 @@ func Annotatef(err error, format string, args ...interface{}) error {
 	return newPrimitive(err, fmt.Sprintf(format, args...))
 }
 
+// Wrap sets next as the next error in the chain of dst, thus making next
+// the direct cause of dst.
+// Returns nil if the dst argument is nil.
+func Wrap(dst, next error) error {
+	if dst == nil || next == nil {
+		return dst
+	}
+
+	switch t := dst.(type) {
+	case *primitive:
+		t.cause = next
+		return t
+	case *http:
+		t.cause = next
+		return t
+	}
+
+	return newPrimitive(next, dst.Error())
+}
+
 // Unwrap returns the next error in the error chain.
 // If there is no next error, Unwrap returns nil.
 func Unwrap(err error) error {
