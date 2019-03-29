@@ -141,7 +141,7 @@ func ExampleHTTPf() {
 
 	email := "alice @example.com"
 	if err := validateEmail(email); err != nil {
-		err = errors.HTTPf(err, http.StatusBadRequest, "invalid email address %s", email)
+		err = errors.HTTPf(err, http.StatusBadRequest, "invalid email %s", email)
 
 		fmt.Printf("%s\n", err)       // Print error message only.
 		fmt.Printf("%v\n", err)       // Print error chain without stack details.
