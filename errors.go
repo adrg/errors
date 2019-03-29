@@ -106,10 +106,17 @@ func As(err error, target interface{}) bool {
 
 	targetType = targetType.Elem()
 	for {
-		if reflect.TypeOf(err) == targetType {
+		errType := reflect.TypeOf(err)
+		if targetType.Kind() == reflect.Interface {
+			if errType.Implements(targetType) {
+				reflect.ValueOf(target).Elem().Set(reflect.ValueOf(err))
+				return true
+			}
+		} else if errType == targetType {
 			reflect.ValueOf(target).Elem().Set(reflect.ValueOf(err))
 			return true
 		}
+
 		if err = Unwrap(err); err == nil {
 			return false
 		}
