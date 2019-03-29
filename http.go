@@ -19,20 +19,20 @@ func (h http) Code() int {
 	return h.code
 }
 
-// NewHTTP returns a new HTTP error which annotates the cause with the
-// specified message and has the provided status code.
-func NewHTTP(cause error, code int, message string) error {
+// NewHTTP returns a new HTTP error which annotates err with the specified
+// message and has the provided status code.
+func NewHTTP(err error, code int, message string) error {
 	return &http{
-		primitive: newPrimitive(cause, message),
+		primitive: newPrimitive(err, message),
 		code:      code,
 	}
 }
 
-// HTTPf returns a new HTTP error which annotates the cause according to the
-// format specifier and has the provided status code.
-func HTTPf(cause error, code int, format string, args ...interface{}) error {
+// HTTPf returns a new HTTP error which annotates err according to the format
+// specifier and has the provided status code.
+func HTTPf(err error, code int, format string, args ...interface{}) error {
 	return &http{
-		primitive: newPrimitive(cause, fmt.Sprintf(format, args...)),
+		primitive: newPrimitive(err, fmt.Sprintf(format, args...)),
 		code:      code,
 	}
 }

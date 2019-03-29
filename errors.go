@@ -65,6 +65,11 @@ func Wrap(dst, next error) error {
 
 // Unwrap returns the next error in the error chain.
 // If there is no next error, Unwrap returns nil.
+//
+// Any error value that satisfies the following interface can be unwrapped:
+//     type wrapper interface {
+//         Unwrap() error
+//     }
 func Unwrap(err error) error {
 	if err != nil {
 		if p, ok := err.(wrapper); ok {
@@ -125,6 +130,12 @@ func As(err error, target interface{}) bool {
 
 // Code returns the code of the provided error.
 // Returns 0 if the error has no error code.
+//
+// Code will return the error code of any error value that satisfies the
+// following interface:
+//    type withCode interface {
+//        Code() int
+//    }
 func Code(err error) int {
 	if err != nil {
 		if h, ok := err.(withCode); ok {
